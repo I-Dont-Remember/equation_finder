@@ -6,6 +6,8 @@ class EquationSearchException(Exception):
     pass
 
 def handle(req):
+    print(type(req))
+    print(req)
     """
     HTTP Cloud Function from Google
     Args:
