@@ -150,7 +150,7 @@ class IndexPage extends React.Component {
                 </Row>
 
                 <Link
-                    to={`/page-2?variables=${picked_variables.reduce(
+                    to={`/results?variables=${picked_variables.reduce(
                         (s, v, i) =>
                             s +
                             v.name +
@@ -158,7 +158,7 @@ class IndexPage extends React.Component {
                         ""
                     )}`}
                 >
-                    Go to page 2
+                    Get equations!
                 </Link>
             </Layout>
         );

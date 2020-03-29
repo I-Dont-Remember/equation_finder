@@ -7,3 +7,25 @@
     border: 1px solid #ced4da;
     border-top: none;
 }
+
+.results > div > div {
+    text-align: center;
+}
+
+.text-button {
+    border: none;
+    transform: rotate(180deg);
+}
+.text-button.expanded {
+    transform: rotate(0deg);
+}
+
+.description-col {
+    display: flex;
+}
+
+.ellipses-text {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
