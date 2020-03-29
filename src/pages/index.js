@@ -88,10 +88,10 @@ class IndexPage extends React.Component {
     };
 
     render() {
+        const { picked_variables } = this.state;
         return (
             <Layout>
                 <SEO title="Home" />
-                <h1>Getcho Equations, mo' Scrongus</h1>
 
                 <p>What variables are known?</p>
                 <Row>
@@ -131,7 +131,7 @@ class IndexPage extends React.Component {
                     </Col>
 
                     <Col sm={12} md={6}>
-                        {this.state.picked_variables.map(variable => (
+                        {picked_variables.map(variable => (
                             <Button
                                 onClick={this.remove_variable}
                                 value={variable.long_name}
@@ -149,7 +149,17 @@ class IndexPage extends React.Component {
                     </Col>
                 </Row>
 
-                <Link to="/page-2/">Go to page 2</Link>
+                <Link
+                    to={`/page-2?variables=${picked_variables.reduce(
+                        (s, v, i) =>
+                            s +
+                            v.name +
+                            (i === picked_variables.length - 1 ? "" : ","),
+                        ""
+                    )}`}
+                >
+                    Go to page 2
+                </Link>
             </Layout>
         );
     }
