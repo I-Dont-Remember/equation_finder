@@ -13,21 +13,29 @@
     padding-right: 0;
 }
 
+.equation-list-item > .row > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .results > div > div {
     text-align: center;
 }
 
-.text-button {
+.expander {
+    padding: 0;
+    display: inherit;
+    margin: 0 5px;
     border: none;
+}
+.expander.expanded {
     transform: rotate(180deg);
 }
-.text-button.expanded {
-    transform: rotate(0deg);
-}
 
-.description-col {
+/* .description-col {
     display: flex;
-}
+} */
 
 .ellipses-text {
     white-space: nowrap;
