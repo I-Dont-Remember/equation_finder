@@ -1,0 +1,9 @@
+name,equation,equation_variables,description,Alternate Equation (ignore),Alternate Equation Variables (ignore)
+Area of a Square,As = l*l,"As, l",Area of a Square...,As = l*w,"As, l, w"
+Area of a Rectangle,Ar = l*w,"Ar, l, w",Area of a Rectangle...,,
+Area of a Triangle,At = l*h*0.5,"At, l, h",Area of a Triangle...,,
+Area of a Circle,Ac = pi*r*r,"Ac, pi, r",Area of a Circle...,Ac = pi*(d/2)*(d/2),"Ac, pi, d"
+Circumference of a Circle,C = 2*pi*r,"C, pi, r",Circumference of a Circle...,C = 2*pi*(d/2),"C, pi, d"
+Volume of a Rectangular Prism,Vr = l*w*h,"Vr, l, w, h",Volume of a Rectangular Prism...,,
+Volume of a Cylinder,Vc = pi*r*r*h,"Vc, pi, r, h",Volume of a Cylinder...,Vc = pi*(d/2)*(d/2)*h,"Vc, pi, d, h"
+Volume of a Cone,Vco = (1/3)*pi*r*r*h,"Vco, pi, r, h",Volume of a Cone...,Vco = (1/3)*pi*(d/2)*(d/2)*h,"Vco, pi, d, h"
