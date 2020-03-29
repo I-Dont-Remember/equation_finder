@@ -10,25 +10,28 @@ import SEO from "../components/seo";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 
-const ALL_VARIABLES = [
-    { long_name: "Area of a Square", name: "As" },
-    { long_name: "Area of a Rectangle", name: "Ar" },
-    { long_name: "Area of a Triangle", name: "At" },
-    { long_name: "Area of a Circle", name: "Ac" },
-    { long_name: "Circumference of a Circle", name: "C" },
-    { long_name: "Volume of a Rectangular Prism", name: "Vr" },
-    { long_name: "Volume of a Cylinder", name: "Vc" },
-    { long_name: "Volume of a Cone", name: "Vco" },
-    { long_name: "Length", name: "l" },
-    { long_name: "Width", name: "w" },
-    { long_name: "Height", name: "h" },
-    { long_name: "Radius", name: "r" }
-];
-
 class IndexPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { variable: "", predicted_variables: [] };
+        this.state = {
+            variable: "",
+            predicted_variables: [],
+            picked_variables: [],
+            unchosen_variables: [
+                { long_name: "Area of a Square", name: "As" },
+                { long_name: "Area of a Rectangle", name: "Ar" },
+                { long_name: "Area of a Triangle", name: "At" },
+                { long_name: "Area of a Circle", name: "Ac" },
+                { long_name: "Circumference of a Circle", name: "C" },
+                { long_name: "Volume of a Rectangular Prism", name: "Vr" },
+                { long_name: "Volume of a Cylinder", name: "Vc" },
+                { long_name: "Volume of a Cone", name: "Vco" },
+                { long_name: "Length", name: "l" },
+                { long_name: "Width", name: "w" },
+                { long_name: "Height", name: "h" },
+                { long_name: "Radius", name: "r" }
+            ]
+        };
     }
 
     // when the input text changes, change the input box and filter the results
@@ -39,7 +42,7 @@ class IndexPage extends React.Component {
         const predicted_variables =
             variable === ""
                 ? []
-                : ALL_VARIABLES.filter(v =>
+                : this.state.unchosen_variables.filter(v =>
                       v.long_name.toLowerCase().includes(variable_lc)
                   );
 
@@ -47,7 +50,61 @@ class IndexPage extends React.Component {
     };
 
     on_variable_click = event => {
-        console.log("variable clicked");
+        // get the long name of the variable that was picked
+        const variable_name = event.currentTarget.value;
+
+        // find the variable object that corresponds to the one picked
+        let { unchosen_variables } = this.state;
+        const variable_obj_index = unchosen_variables.findIndex(
+            v => v.long_name === variable_name
+        );
+        const variable_obj = unchosen_variables[variable_obj_index];
+        // add the picked variable object to the list of picked variables
+        const picked_variables = this.state.picked_variables.concat([
+            variable_obj
+        ]);
+        // remove the variable from the unchosen variables
+        unchosen_variables.splice(variable_obj_index, 1);
+
+        this.setState({
+            // set the picked variables
+            picked_variables,
+            // reset the variable input
+            variable: "",
+            // set the unchosen variables without the new chosen one
+            unchosen_variables,
+            // remove all the predicted variables
+            predicted_variables: []
+        });
+    };
+
+    on_variable_delete = event => {
+        // get the long name of the variable that was picked
+        const variable_name = event.currentTarget.value;
+
+        // find the variable object that corresponds to the one picked
+        let { picked_variables } = this.state;
+        const variable_obj_index = picked_variables.findIndex(
+            v => v.long_name === variable_name
+        );
+        const variable_obj = picked_variables[variable_obj_index];
+        // add the variable object to the list of unpicked variables
+        const unchosen_variables = this.state.unchosen_variables.concat([
+            variable_obj
+        ]);
+        // remove the variable from the unchosen variables
+        picked_variables.splice(variable_obj_index, 1);
+
+        this.setState({
+            // set the picked variables
+            picked_variables,
+            // reset the variable input
+            variable: "",
+            // set the unchosen variables without the new chosen one
+            unchosen_variables,
+            // remove all the predicted variables
+            predicted_variables: []
+        });
     };
 
     render() {
@@ -71,6 +128,19 @@ class IndexPage extends React.Component {
                         <ListGroup.Item
                             action
                             onClick={this.on_variable_click}
+                            value={variable.long_name}
+                            key={variable.long_name}
+                        >
+                            {variable.long_name}
+                        </ListGroup.Item>
+                    ))}
+                </ListGroup>
+
+                <ListGroup>
+                    {this.state.picked_variables.map(variable => (
+                        <ListGroup.Item
+                            action
+                            onClick={this.on_variable_delete}
                             value={variable.long_name}
                             key={variable.long_name}
                         >
