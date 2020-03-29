@@ -28,24 +28,38 @@ def lambda_handler(event, context):
 
 
 def run(event):
-    variables_param = parse_data(event)
-    variables = variables_param.split(",")
+    variables =  parse_data(event)
 
+    resp_code = 500
     resp_data = {
         "search_variables": variables
     }
+
+    try:
+        possible_equations = equation_search(dynamodb, variables)
+        resp_code = 200
+        resp_data["possible_equations"] = possible_equations
+    except Exception as e:
+        resp_data["error"] = str(e)
+
     resp = {
-        "statusCode": 200,
+        "statusCode": resp_code,
         "body": json.dumps(resp_data),
     }
-
     return resp
 
 
 def parse_data(event):
     query_params = event["queryStringParameters"]
-    return query_params["variables"]
- 
+    variables_param = query_params["variables"]
+    return variables_param.split(",")
+
+def equation_search(dynamodb, variables):
+    # TODO: get item for each combination of variables we have?
+    # resp = dynamodb.get_item()
+    raise EquationSearchException(f"No equations found for combination of variables '{variables}'")
+
+
 # # TODO: unubo looks clean but is a dud for docs & deployments
 # def handle(req):
 #     print(type(req))
