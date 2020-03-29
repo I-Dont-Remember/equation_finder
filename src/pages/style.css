@@ -33,10 +33,6 @@
     transform: rotate(180deg);
 }
 
-/* .description-col {
-    display: flex;
-} */
-
 .ellipses-text {
     white-space: nowrap;
     text-overflow: ellipsis;

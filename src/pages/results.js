@@ -15,18 +15,18 @@ import MathJax from "react-mathjax2";
 
 const DEFAULT_EQUATIONS = [
     {
-        equation: "F_w = 0.5pv^2A",
+        formula: "F_w = 0.5pv^2A",
         confidence: 100,
         description:
             "Wind force is like totally legit bro, like honestly I don't even know what to say. Like, fo real. Hot diggity schlongus up in this higgity hizzoussee bro! Anyway here's my number, hit me up sometime if you wanna listen to Linkin Park and drink mountain dew and play Halo, it's lit. Bro, I'm serious, bro."
     },
     {
-        equation: "p(v) = (4v^(2))/(pi^(1/2))(m/(2kT))^(3/2)e^(-(mv^2)/(2kT))",
+        formula: "p(v) = (4v^(2))/(pi^(1/2))(m/(2kT))^(3/2)e^(-(mv^2)/(2kT))",
         confidence: 80,
         description: "yuh"
     },
     {
-        equation: "Eq3 = ur mom lol",
+        formula: "Eq3 = ur mom lol",
         confidence: 50,
         description: "GOT EEM"
     }
@@ -36,23 +36,27 @@ class Results extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            equations: DEFAULT_EQUATIONS
-        };
+        this.state = { equations: [] };
     }
 
+    // get the requested equations from the api
     componentDidMount() {
         console.log("this.props.location: ", this.props.location);
         axios
-            .get("/jangus" + this.props.search)
+            .get(this.props.location.href)
             .then(response => {
-                console.log("do something with the response: ", response);
+                console.log("response: ", response);
+                this.setState({
+                    equations:
+                        response.data.possible_equations || DEFAULT_EQUATIONS
+                });
             })
             .catch(error => {
                 console.log("error getting data: ", error);
             });
     }
 
+    // expand or collapse a description
     toggle_expand = event => {
         const eq_index = event.currentTarget.value;
         let equations = this.state.equations.slice(0);
@@ -84,50 +88,14 @@ class Results extends React.Component {
                         <ListGroup variant="flush">
                             {this.state.equations.map((eq, eq_index) => (
                                 <ListGroup.Item
-                                    key={eq.equation}
+                                    key={eq.formula}
                                     className="equation-list-item"
                                 >
-                                    <Row>
-                                        <Col xs={4}>
-                                            <MathJax.Node>
-                                                {eq.equation}
-                                            </MathJax.Node>
-                                        </Col>
-                                        <Col xs={4}>{eq.confidence}%</Col>
-                                        <Col
-                                            xs={4}
-                                            className="description-col"
-                                            style={{
-                                                flexDirection: eq.expanded
-                                                    ? "column"
-                                                    : "row"
-                                            }}
-                                        >
-                                            <div
-                                                className={
-                                                    eq.expanded
-                                                        ? ""
-                                                        : "ellipses-text"
-                                                }
-                                            >
-                                                {eq.description}
-                                            </div>
-                                            <button
-                                                className={`expander ${
-                                                    eq.expanded
-                                                        ? "expanded"
-                                                        : ""
-                                                }`}
-                                                value={eq_index}
-                                                onClick={this.toggle_expand}
-                                            >
-                                                <DownCaret
-                                                    height={"1em"}
-                                                    width={"1em"}
-                                                />
-                                            </button>
-                                        </Col>
-                                    </Row>
+                                    <EquationRow
+                                        equation={eq}
+                                        equation_index={eq_index}
+                                        toggle_expand={this.toggle_expand}
+                                    />
                                 </ListGroup.Item>
                             ))}
                         </ListGroup>
@@ -139,5 +107,44 @@ class Results extends React.Component {
         );
     }
 }
+
+const EquationRow = ({ equation, equation_index, toggle_expand }) => (
+    <Row>
+        <Formula equation={equation} />
+        <Confidence equation={equation} />
+        <Description
+            equation={equation}
+            equation_index={equation_index}
+            toggle_expand={toggle_expand}
+        />
+    </Row>
+);
+
+const Formula = ({ equation }) => (
+    <Col xs={4}>
+        <MathJax.Node>{equation.formula}</MathJax.Node>
+    </Col>
+);
+
+const Confidence = ({ equation }) => <Col xs={4}>{equation.confidence}%</Col>;
+
+const Description = ({ equation, equation_index, toggle_expand }) => (
+    <Col
+        xs={4}
+        className="description-col"
+        style={{ flexDirection: equation.expanded ? "column" : "row" }}
+    >
+        <div className={equation.expanded ? "" : "ellipses-text"}>
+            {equation.description}
+        </div>
+        <button
+            className={`expander ${equation.expanded ? "expanded" : ""}`}
+            value={equation_index}
+            onClick={toggle_expand}
+        >
+            <DownCaret height={"1em"} width={"1em"} />
+        </button>
+    </Col>
+);
 
 export default Results;
