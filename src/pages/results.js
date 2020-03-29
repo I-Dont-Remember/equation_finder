@@ -9,6 +9,8 @@ import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 
+import axios from "axios";
+
 const DEFAULT_EQUATIONS = [
     {
         equation: "Fw = 0.5*p*v^2*A",
@@ -35,6 +37,18 @@ class Results extends React.Component {
         this.state = {
             equations: DEFAULT_EQUATIONS
         };
+    }
+
+    componentDidMount() {
+        console.log("this.props.location: ", this.props.location);
+        axios
+            .get("/jangus" + this.props.search)
+            .then(response => {
+                console.log("do something with the response: ", response);
+            })
+            .catch(error => {
+                console.log("error getting data: ", error);
+            });
     }
 
     toggle_expand = event => {
