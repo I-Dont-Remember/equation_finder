@@ -15,18 +15,18 @@ import MathJax from "react-mathjax2";
 
 const DEFAULT_EQUATIONS = [
     {
-        formula: "F_w = 0.5pv^2A",
+        equation: "F_w = 0.5pv^2A",
         confidence: 100,
         description:
             "Wind force is like totally legit bro, like honestly I don't even know what to say. Like, fo real. Hot diggity schlongus up in this higgity hizzoussee bro! Anyway here's my number, hit me up sometime if you wanna listen to Linkin Park and drink mountain dew and play Halo, it's lit. Bro, I'm serious, bro."
     },
     {
-        formula: "p(v) = (4v^(2))/(pi^(1/2))(m/(2kT))^(3/2)e^(-(mv^2)/(2kT))",
+        equation: "p(v) = (4v^(2))/(pi^(1/2))(m/(2kT))^(3/2)e^(-(mv^2)/(2kT))",
         confidence: 80,
         description: "yuh"
     },
     {
-        formula: "Eq3 = ur mom lol",
+        equation: "Eq3 = ur mom lol",
         confidence: 50,
         description: "GOT EEM"
     }
@@ -42,8 +42,11 @@ class Results extends React.Component {
     // get the requested equations from the api
     componentDidMount() {
         console.log("this.props.location: ", this.props.location);
+        const api_url =
+            "https://nb7gul591a.execute-api.us-west-1.amazonaws.com/dev/equations";
+
         axios
-            .get(this.props.location.href)
+            .get(api_url + this.props.location.search)
             .then(response => {
                 console.log("response: ", response);
                 this.setState({
@@ -88,7 +91,7 @@ class Results extends React.Component {
                         <ListGroup variant="flush">
                             {this.state.equations.map((eq, eq_index) => (
                                 <ListGroup.Item
-                                    key={eq.formula}
+                                    key={eq.equation}
                                     className="equation-list-item"
                                 >
                                     <EquationRow
@@ -122,11 +125,13 @@ const EquationRow = ({ equation, equation_index, toggle_expand }) => (
 
 const Formula = ({ equation }) => (
     <Col xs={4}>
-        <MathJax.Node>{equation.formula}</MathJax.Node>
+        <MathJax.Node>{equation.equation}</MathJax.Node>
     </Col>
 );
 
-const Confidence = ({ equation }) => <Col xs={4}>{equation.confidence}%</Col>;
+const Confidence = ({ equation }) => (
+    <Col xs={4}>{Math.round((equation.confidence || 0) * 100)}%</Col>
+);
 
 const Description = ({ equation, equation_index, toggle_expand }) => (
     <Col
