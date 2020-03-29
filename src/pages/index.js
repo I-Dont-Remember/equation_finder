@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "gatsby";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./style.css";
 
 import Layout from "../components/layout";
 import Image from "../components/image";
@@ -9,6 +10,11 @@ import SEO from "../components/seo";
 
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+
+import TrashIcon from "../components/icons/Trash";
 
 class IndexPage extends React.Component {
     constructor(props) {
@@ -86,47 +92,82 @@ class IndexPage extends React.Component {
             <Layout>
                 <SEO title="Home" />
                 <h1>Getcho Equations, mo' Scrongus</h1>
+
                 <p>What variables are known?</p>
-                <Form>
-                    <Form.Control
-                        type="text"
-                        name="variable"
-                        value={this.state.variable}
-                        onChange={this.handle_input_change}
-                        placeholder="e.g. height"
-                    />
-                </Form>
+                <Row>
+                    <Col sm={12} md={6}>
+                        <Form>
+                            <Form.Control
+                                type="text"
+                                name="variable"
+                                value={this.state.variable}
+                                onChange={this.handle_input_change}
+                                placeholder="e.g. height"
+                            />
+                            <ListGroup
+                                variant="flush"
+                                className="pickable-vars"
+                                style={{
+                                    display: this.state.predicted_variables
+                                        .length
+                                        ? ""
+                                        : "none"
+                                }}
+                            >
+                                {this.state.predicted_variables.map(
+                                    variable => (
+                                        <ListGroup.Item
+                                            action
+                                            onClick={this.choose_variable}
+                                            value={variable.long_name}
+                                            key={variable.long_name}
+                                        >
+                                            {variable.long_name}
+                                        </ListGroup.Item>
+                                    )
+                                )}
+                            </ListGroup>
+                        </Form>
+                    </Col>
 
-                <ListGroup>
-                    {this.state.predicted_variables.map(variable => (
-                        <ListGroup.Item
-                            action
-                            onClick={this.choose_variable}
-                            value={variable.long_name}
-                            key={variable.long_name}
-                        >
-                            {variable.long_name}
-                        </ListGroup.Item>
-                    ))}
-                </ListGroup>
-
-                <ListGroup>
-                    {this.state.picked_variables.map(variable => (
-                        <ListGroup.Item
-                            action
-                            onClick={this.remove_variable}
-                            value={variable.long_name}
-                            key={variable.long_name}
-                        >
-                            {variable.long_name}
-                        </ListGroup.Item>
-                    ))}
-                </ListGroup>
+                    <Col sm={12} md={6}>
+                        {this.state.picked_variables.map(variable => (
+                            <Button
+                                onClick={this.remove_variable}
+                                value={variable.long_name}
+                                key={variable.long_name}
+                                className="picked-variable"
+                            >
+                                <TrashIcon
+                                    stroke={"white"}
+                                    height={20}
+                                    style={{ marginTop: "-4px" }}
+                                />{" "}
+                                {variable.long_name}
+                            </Button>
+                        ))}
+                    </Col>
+                </Row>
 
                 <Link to="/page-2/">Go to page 2</Link>
             </Layout>
         );
     }
+}
+
+{
+    /* <ListGroup>
+    {this.state.picked_variables.map(variable => (
+        <ListGroup.Item
+            action
+            onClick={this.remove_variable}
+            value={variable.long_name}
+            key={variable.long_name}
+        >
+            {variable.long_name}
+        </ListGroup.Item>
+    ))}
+</ListGroup> */
 }
 
 // const IndexPage = () => (

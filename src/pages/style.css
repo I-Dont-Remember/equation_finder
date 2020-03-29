@@ -1,0 +1,9 @@
+.picked-variable {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.pickable-vars {
+    border: 1px solid #ced4da;
+    border-top: none;
+}
