@@ -66,7 +66,10 @@ class Results extends React.Component {
 
                     <ListGroup variant="flush">
                         {this.state.equations.map((eq, eq_index) => (
-                            <ListGroup.Item key={eq.equation}>
+                            <ListGroup.Item
+                                key={eq.equation}
+                                className="equation-list-item"
+                            >
                                 <Row>
                                     <Col xs={4}>{eq.equation}</Col>
                                     <Col xs={4}>{eq.confidence}%</Col>
