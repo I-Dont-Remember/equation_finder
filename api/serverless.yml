@@ -1,0 +1,36 @@
+service: equation_finder
+
+provider:
+  name: aws
+  runtime: python3.7
+  stage: dev
+
+package:
+  individually: true
+
+functions:
+  search:
+    handler: search.lambda_handler
+    environment:
+      NAME: ${opt:name, "John Doe"}
+    events:
+     - http:
+          method: get
+          path: /equations
+          request:
+            parameters:
+              querystrings:
+                variables: true
+    package:
+      exclude:
+        - ./**
+      include:
+        - ./search.py
+
+custom:
+  pythonRequirements:
+    slim: true
+
+plugins:
+  - serverless-python-requirements
+  - serverless-offline

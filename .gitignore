@@ -1,3 +1,10 @@
+# Kevin's stuff
+.vscode/
+**.DS_Store
+**node_modules/
+
+# Gatsby's stuff
+
 # Logs
 logs
 *.log
