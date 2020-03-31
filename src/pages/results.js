@@ -7,29 +7,28 @@ import SEO from "../components/seo";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
-import Button from "react-bootstrap/Button";
 import DownCaret from "../components/icons/DownCaret";
 
 import axios from "axios";
 import MathJax from "react-mathjax2";
 
 const DEFAULT_EQUATIONS = [
-    {
-        equation: "F_w = 0.5pv^2A",
-        confidence: 100,
-        description:
-            "Wind force is like totally legit bro, like honestly I don't even know what to say. Like, fo real. Hot diggity schlongus up in this higgity hizzoussee bro! Anyway here's my number, hit me up sometime if you wanna listen to Linkin Park and drink mountain dew and play Halo, it's lit. Bro, I'm serious, bro."
-    },
-    {
-        equation: "p(v) = (4v^(2))/(pi^(1/2))(m/(2kT))^(3/2)e^(-(mv^2)/(2kT))",
-        confidence: 80,
-        description: "yuh"
-    },
-    {
-        equation: "Eq3 = ur mom lol",
-        confidence: 50,
-        description: "GOT EEM"
-    }
+    // {
+    //     equation: "F_w = 0.5pv^2A",
+    //     confidence: 100,
+    //     description:
+    //         "Wind force is like totally legit bro, like honestly I don't even know what to say. Like, fo real. Hot diggity schlongus up in this higgity hizzoussee bro! Anyway here's my number, hit me up sometime if you wanna listen to Linkin Park and drink mountain dew and play Halo, it's lit. Bro, I'm serious, bro."
+    // },
+    // {
+    //     equation: "p(v) = (4v^(2))/(pi^(1/2))(m/(2kT))^(3/2)e^(-(mv^2)/(2kT))",
+    //     confidence: 80,
+    //     description: "yuh"
+    // },
+    // {
+    //     equation: "Eq3 = ur mom lol",
+    //     confidence: 50,
+    //     description: "GOT EEM"
+    // }
 ];
 
 class Results extends React.Component {

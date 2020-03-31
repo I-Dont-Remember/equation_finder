@@ -1,7 +1,7 @@
 module.exports = {
     siteMetadata: {
-        title: `Getcho Equations, mo' Scrongus`,
-        description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+        title: `Equation Finder`,
+        description: `Takes in any variables you have and finds equations that you can use with them. Physics, math, chemistry, whatever you need!`,
         author: `@gatsbyjs`
     },
     plugins: [
